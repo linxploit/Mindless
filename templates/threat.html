@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Navigation -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+        <span class="text-cyan" style="font-size: 18px;">[ THREAT INTELLIGENCE OPERATIONS ]</span>
+        <span class="text-muted" style="margin-left: 15px;">IOC Analysis & Threat Hunting</span>
+    </div>
+    <div>
+        <a href="/" class="btn" style="padding: 8px 16px;">
+            <i class="fas fa-arrow-left"></i> BACK TO MAIN
+        </a>
+    </div>
+</div>
+
+<!-- Module Grid -->
+<div class="menu-container">
+    <!-- Phishing URL Analyzer -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-fish"></i></div>
+            <div class="menu-title">PHISHING URL ANALYZER</div>
+        </div>
+        <div class="menu-desc">
+            Heuristic detection & domain reputation analysis
+        </div>
+        
+        <form class="tool-form" data-category="threat" data-tool="phishing" id="phishing_form">
+            <div class="form-group">
+                <label class="form-label" for="phishing_url">URL TO ANALYZE</label>
+                <input type="text" class="form-control" id="phishing_url" name="url" 
+                       placeholder="e.g., https://suspicious-site.com/login" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> ANALYZE URL
+            </button>
+        </form>
+    </div>
+    
+    <!-- Hash Analyzer -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-hashtag"></i></div>
+            <div class="menu-title">HASH ANALYZER</div>
+        </div>
+        <div class="menu-desc">
+            Cryptographic hash identification & strength analysis
+        </div>
+        
+        <form class="tool-form" data-category="threat" data-tool="hash" id="hash_form">
+            <div class="form-group">
+                <label class="form-label" for="hash_hash">HASH STRING</label>
+                <input type="text" class="form-control" id="hash_hash" name="hash" 
+                       placeholder="e.g., 5d41402abc4b2a76b9719d911017c592" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> IDENTIFY HASH
+            </button>
+        </form>
+    </div>
+    
+    <!-- Malicious IOC Scanner -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-virus"></i></div>
+            <div class="menu-title">IOC SCANNER</div>
+        </div>
+        <div class="menu-desc">
+            Malicious indicator detection in text/logs
+        </div>
+        
+        <form class="tool-form" data-category="threat" data-tool="ioc" id="ioc_form">
+            <div class="form-group">
+                <label class="form-label" for="ioc_text">TEXT/LOG CONTENT</label>
+                <textarea class="form-control" id="ioc_text" name="text" 
+                          rows="5" placeholder="Paste text, logs, or URLs to scan for IOCs..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> SCAN FOR IOCs
+            </button>
+        </form>
+    </div>
+    
+    <!-- Brand Impersonation Detector -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-copyright"></i></div>
+            <div class="menu-title">BRAND IMPERSONATION</div>
+        </div>
+        <div class="menu-desc">
+            Typosquatting & brand abuse detection
+        </div>
+        
+        <form class="tool-form" data-category="threat" data-tool="brand" id="brand_form">
+            <div class="form-group">
+                <label class="form-label" for="brand_text">TEXT/DOMAIN TO SCAN</label>
+                <input type="text" class="form-control" id="brand_text" name="text" 
+                       placeholder="e.g., g00gle.com or paypal-security-verify.net" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> DETECT IMPERSONATION
+            </button>
+        </form>
+    </div>
+    
+    <!-- Pastebin Leak Monitor -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-paste"></i></div>
+            <div class="menu-title">PASTEBIN LEAK MONITOR</div>
+        </div>
+        <div class="menu-desc">
+            OSINT data leak detection & monitoring
+            <span class="menu-badge badge-slow" style="margin-left: 10px;">5-15s</span>
+        </div>
+        
+        <form class="tool-form" data-category="threat" data-tool="pastebin" id="pastebin_form">
+            <div class="form-group">
+                <label class="form-label" for="pastebin_query">KEYWORD/EMAIL/DOMAIN</label>
+                <input type="text" class="form-control" id="pastebin_query" name="query" 
+                       placeholder="e.g., company.com or user@example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> SEARCH PASTEBIN
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Results Container -->
+<div id="loading" class="hidden" style="margin-top: 30px;"></div>
+<div id="results" style="margin-top: 30px;"></div>
+
+<!-- Job Status -->
+<div style="display: flex; gap: 20px; margin-top: 20px; padding: 15px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 4px;">
+    <div>
+        <span class="text-muted">JOB STATUS:</span>
+        <span id="job-status" class="text-yellow">⏳ READY</span>
+    </div>
+    <div>
+        <span class="text-muted">ELAPSED:</span>
+        <span id="job-time" class="text-cyan">0.0s</span>
+    </div>
+    <div style="flex: 1;">
+        <div class="progress">
+            <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Intelligence Sources -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px;">
+    <div style="background-color: var(--bg-secondary); padding: 15px; border: 1px solid var(--border-color); border-radius: 4px;">
+        <span class="text-cyan">THREAT SOURCES</span>
+        <div style="margin-top: 10px;">
+            <div><span class="text-green">✓</span> WHOIS</div>
+            <div><span class="text-green">✓</span> DNSBL</div>
+            <div><span class="text-green">✓</span> crt.sh</div>
+            <div><span class="text-green">✓</span> Pastebin</div>
+            <div><span class="text-yellow">⚠</span> VirusTotal (API key)</div>
+        </div>
+    </div>
+    <div style="background-color: var(--bg-secondary); padding: 15px; border: 1px solid var(--border-color); border-radius: 4px;">
+        <span class="text-cyan">IOC TYPES DETECTED</span>
+        <div style="margin-top: 10px;">
+            <div><span class="text-green">✓</span> IPv4/IPv6</div>
+            <div><span class="text-green">✓</span> Domains/URLs</div>
+            <div><span class="text-green">✓</span> MD5/SHA1/SHA256</div>
+            <div><span class="text-green">✓</span> Emails</div>
+            <div><span class="text-green">✓</span> CVE IDs</div>
+        </div>
+    </div>
+    <div style="background-color: var(--bg-secondary); padding: 15px; border: 1px solid var(--border-color); border-radius: 4px;">
+        <span class="text-cyan">BRANDS MONITORED</span>
+        <div style="margin-top: 10px;">
+            <div>Google, Microsoft, Apple</div>
+            <div>Amazon, PayPal, Netflix</div>
+            <div>Facebook, Twitter, LinkedIn</div>
+            <div>Major Banks (20+)</div>
+            <div class="text-muted">... and more</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

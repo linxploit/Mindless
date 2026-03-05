@@ -1,7 +1,38 @@
-from colorama import Fore, Style
+#!/usr/bin/env python3
+"""
+MINDLESS-REDOPS :: CLI Banners
+Professional ASCII Art Banners & UI Elements
+Author: ICAT Project | Linxploit.xyz
+"""
 
+from colorama import Fore, Style, init
+import platform
+
+init(autoreset=True)
+
+# Detect Windows for character compatibility
+IS_WINDOWS = platform.system().lower() == 'windows'
+
+# Professional box-drawing characters
+if IS_WINDOWS:
+    # Windows-compatible ASCII
+    H_LINE = "="
+    V_LINE = "|"
+    TL_CORNER = "+"
+    TR_CORNER = "+"
+    BL_CORNER = "+"
+    BR_CORNER = "+"
+else:
+    # Linux/Unix Unicode box drawing
+    H_LINE = "═"
+    V_LINE = "║"
+    TL_CORNER = "╔"
+    TR_CORNER = "╗"
+    BL_CORNER = "╚"
+    BR_CORNER = "╝"
 
 def kali_dragon():
+    """Display Kali Dragon ASCII art - Professional Red Team Aesthetic"""
     print(Fore.RED + Style.BRIGHT + r"""
        .oXXXXXXXXXXXXXXXXXXo.
      .oXXXXX/XXXXXXXX\XXXXXXXo.
@@ -21,7 +52,10 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
          XP^X'`O   0'`X^XX
          X. R  `   '  9 )X
          `K  `       '  7'
-          `             ' """)
+          `             ' 
+    """ + Style.RESET_ALL)
+    print()
+
 def main_banner():
     print(Fore.GREEN + Style.BRIGHT + r"""
  __  __ ___ _   _ ____  _     _____ ____ ____    _ 
@@ -30,9 +64,13 @@ def main_banner():
 | |  | || || |\  | |_| | |___| |___ ___) |__) | |_|
 |_|  |_|___|_| \_|____/|_____|_____|____/____/  (_)
 
-
-        Mindless OffSec Toolkit | ICAT Project
-        From The House of Linxploit.xyz
-        Made with Thurru rru rru !
- ______________________________________________________
-    """)
+    """+ Style.RESET_ALL)
+    
+    print(Fore.WHITE + Style.BRIGHT + f"""
+    ┌────────────────────────────────────────────────────────────────┐
+    │                    BLUE TEAM OPERATIONS FRAMEWORK              │
+    │                    Mindless RedOps v3.1 - Red Harbor           │
+    │                    ICAT Project | Linxploit.xyz                │
+    └────────────────────────────────────────────────────────────────┘
+    """ + Style.RESET_ALL)
+    print()

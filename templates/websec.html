@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Navigation -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+        <span class="text-cyan" style="font-size: 18px;">[ WEB SECURITY OPERATIONS ]</span>
+        <span class="text-muted" style="margin-left: 15px;">Application Layer Assessment</span>
+    </div>
+    <div>
+        <a href="/" class="btn" style="padding: 8px 16px;">
+            <i class="fas fa-arrow-left"></i> BACK TO MAIN
+        </a>
+    </div>
+</div>
+
+<!-- Module Grid -->
+<div class="menu-container">
+    <!-- HTTP Security Headers -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="menu-title">HTTP SECURITY HEADERS</div>
+        </div>
+        <div class="menu-desc">
+            CSP, HSTS, X-Frame-Options, X-Content-Type-Options analysis
+        </div>
+        
+        <form class="tool-form" data-category="websec" data-tool="headers" id="headers_form">
+            <div class="form-group">
+                <label class="form-label" for="headers_url">TARGET URL</label>
+                <input type="text" class="form-control" id="headers_url" name="url" 
+                       placeholder="e.g., https://example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> ANALYZE HEADERS
+            </button>
+        </form>
+    </div>
+    
+    <!-- Directory Fuzzer -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-folder-open"></i></div>
+            <div class="menu-title">DIRECTORY FUZZER</div>
+        </div>
+        <div class="menu-desc">
+            Content discovery & endpoint enumeration
+            <span class="menu-badge badge-slow" style="margin-left: 10px;">10-30s</span>
+        </div>
+        
+        <form class="tool-form" data-category="websec" data-tool="directory_fuzzer" id="directory_fuzzer_form">
+            <div class="form-group">
+                <label class="form-label" for="directory_fuzzer_url">BASE URL</label>
+                <input type="text" class="form-control" id="directory_fuzzer_url" name="url" 
+                       placeholder="e.g., https://example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> START FUZZING
+            </button>
+        </form>
+    </div>
+    
+    <!-- CORS Checker -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-exchange-alt"></i></div>
+            <div class="menu-title">CORS CHECKER</div>
+        </div>
+        <div class="menu-desc">
+            Cross-Origin Resource Sharing misconfiguration detection
+        </div>
+        
+        <form class="tool-form" data-category="websec" data-tool="cors" id="cors_form">
+            <div class="form-group">
+                <label class="form-label" for="cors_url">TARGET URL</label>
+                <input type="text" class="form-control" id="cors_url" name="url" 
+                       placeholder="e.g., https://api.example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> CHECK CORS
+            </button>
+        </form>
+    </div>
+    
+    <!-- XSS Reflection Detector -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-code"></i></div>
+            <div class="menu-title">XSS REFLECTION TEST</div>
+        </div>
+        <div class="menu-desc">
+            SAFE MODE - Non-executable marker reflection testing
+            <span class="menu-badge" style="background: rgba(0, 255, 249, 0.2); color: var(--accent-cyan);">READ-ONLY</span>
+        </div>
+        
+        <form class="tool-form" data-category="websec" data-tool="xss" id="xss_form">
+            <div class="form-group">
+                <label class="form-label" for="xss_url">TARGET URL</label>
+                <input type="text" class="form-control" id="xss_url" name="url" 
+                       placeholder="e.g., https://example.com/page.php?id=1" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> TEST REFLECTION
+            </button>
+        </form>
+    </div>
+    
+    <!-- File Upload Risk Analyzer -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-upload"></i></div>
+            <div class="menu-title">FILE UPLOAD RISK</div>
+        </div>
+        <div class="menu-desc">
+            PASSIVE MODE - Upload form security analysis
+            <span class="menu-badge" style="background: rgba(0, 255, 249, 0.2); color: var(--accent-cyan);">NO UPLOAD</span>
+        </div>
+        
+        <form class="tool-form" data-category="websec" data-tool="file_upload" id="file_upload_form">
+            <div class="form-group">
+                <label class="form-label" for="file_upload_url">UPLOAD ENDPOINT URL</label>
+                <input type="text" class="form-control" id="file_upload_url" name="url" 
+                       placeholder="e.g., https://example.com/upload.php" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> ANALYZE RISK
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Results Container -->
+<div id="loading" class="hidden" style="margin-top: 30px;"></div>
+<div id="results" style="margin-top: 30px;"></div>
+
+<!-- Job Status -->
+<div style="display: flex; gap: 20px; margin-top: 20px; padding: 15px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 4px;">
+    <div>
+        <span class="text-muted">JOB STATUS:</span>
+        <span id="job-status" class="text-yellow">⏳ READY</span>
+    </div>
+    <div>
+        <span class="text-muted">ELAPSED:</span>
+        <span id="job-time" class="text-cyan">0.0s</span>
+    </div>
+    <div style="flex: 1;">
+        <div class="progress">
+            <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Security Note -->
+<div class="alert alert-info" style="margin-top: 20px;">
+    <strong>[i] SAFE MODE:</strong> All tools are read-only and perform passive analysis only.
+    <br>
+    <span class="text-muted">No files are uploaded, no JavaScript is executed, and no modifications are made to targets.</span>
+</div>
+{% endblock %}

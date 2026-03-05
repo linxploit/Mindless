@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a0e12">
+    <meta name="description" content="Mindless-RedOps - Professional Red Team Operations Framework">
+    <meta name="author" content="ICAT Project | Linxploit.xyz">
+    
+    <title>MINDLESS-REDOPS :: {{ title if title else 'Red Team Framework' }}</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Custom Hacker Theme CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hacker.css') }}">
+</head>
+<body>
+    <!-- Terminal Header -->
+    <div class="terminal-header">
+        <div class="terminal-buttons">
+            <span class="terminal-btn"></span>
+            <span class="terminal-btn minimize"></span>
+            <span class="terminal-btn maximize"></span>
+        </div>
+        <div class="terminal-title">
+            <i class="fas fa-skull"></i> MINDLESS-REDOPS :: {{ codename if codename else 'Red Harbor' }} :: v{{ version if version else '2.0.0' }}
+        </div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="terminal-container">
+        <!-- ASCII Art Banner -->
+        <div class="ascii-art">
+            <pre>
+    ███╗   ███╗██╗███╗   ██╗██████╗ ██╗     ███████╗███████╗███████╗
+    ████╗ ████║██║████╗  ██║██╔══██╗██║     ██╔════╝██╔════╝██╔════╝
+    ██╔████╔██║██║██╔██╗ ██║██║  ██║██║     █████╗  ███████╗███████╗
+    ██║╚██╔╝██║██║██║╚██╗██║██║  ██║██║     ██╔══╝  ╚════██║╚════██║
+    ██║ ╚═╝ ██║██║██║ ╚████║██████╔╝███████╗███████╗███████║███████║
+    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚══════╝╚══════╝
+            </pre>
+        </div>
+        
+        <div class="banner-sub">
+            <span class="text-cyan glow-cyan">[ SYSTEM v{{ version if version else '2.0.0' }} ]</span>
+            <span class="text-red glow-red">[ CODENAME: {{ codename if codename else 'RED HARBOR' }} ]</span>
+            <span class="text-green">[ MODULES: 32 ACTIVE ]</span>
+        </div>
+        
+        <!-- Main Content -->
+        {% block content %}{% endblock %}
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div>
+                <span class="text-red">MINDLESS-REDOPS</span> 
+                <span class="text-muted">::</span> 
+                <span class="text-cyan">Professional Red Team Framework</span>
+            </div>
+            <div style="margin-top: 10px;">
+                <span class="text-muted">ICAT Project | Linxploit.xyz</span>
+                <span class="cursor"></span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

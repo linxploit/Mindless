@@ -1,2 +1,213 @@
-<h2>Mindless – Red Harbor Offsec Toolkit</h2>
-<p>Educational Security Dashboard</p>
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Status Dashboard -->
+<div class="status-dashboard">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span class="text-cyan">[ MODULE STATUS DASHBOARD ]</span>
+        <span class="text-muted">{{ now().strftime('%Y-%m-%d %H:%M:%S') }}</span>
+    </div>
+    
+    <div class="status-grid">
+        <div class="status-item">
+            <div class="status-label">NETWORK SECURITY</div>
+            <div class="status-value">✓ READY</div>
+            <div style="color: var(--text-secondary); font-size: 12px; margin-top: 5px;">5 Modules</div>
+        </div>
+        <div class="status-item">
+            <div class="status-label">RECONNAISSANCE</div>
+            <div class="status-value">✓ READY</div>
+            <div style="color: var(--text-secondary); font-size: 12px; margin-top: 5px;">6 Modules</div>
+        </div>
+        <div class="status-item">
+            <div class="status-label">WEB SECURITY</div>
+            <div class="status-value">✓ READY</div>
+            <div style="color: var(--text-secondary); font-size: 12px; margin-top: 5px;">5 Modules</div>
+        </div>
+        <div class="status-item">
+            <div class="status-label">THREAT INTEL</div>
+            <div class="status-value">✓ READY</div>
+            <div style="color: var(--text-secondary); font-size: 12px; margin-top: 5px;">5 Modules</div>
+        </div>
+        <div class="status-item">
+            <div class="status-label">UTILITIES</div>
+            <div class="status-value">✓ READY</div>
+            <div style="color: var(--text-secondary); font-size: 12px; margin-top: 5px;">7 Modules</div>
+        </div>
+        <div class="status-item">
+            <div class="status-label">SOC TOOLS</div>
+            <div class="status-value" style="color: var(--warning);">⏳ COMING SOON</div>
+            <div style="color: var(--text-secondary); font-size: 12px; margin-top: 5px;">Q2 2026</div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Menu -->
+<div style="margin-top: 30px;">
+    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+        <span class="text-cyan" style="font-size: 18px;">[ MAIN OPERATIONS MENU ]</span>
+    </div>
+    
+    <div class="menu-container">
+        <!-- Reconnaissance Card -->
+        <div class="menu-card" onclick="window.location.href='/recon'">
+            <div class="menu-header">
+                <div class="menu-icon"><i class="fas fa-search"></i></div>
+                <div class="menu-title">RECONNAISSANCE</div>
+            </div>
+            <div class="menu-desc">
+                Information Gathering & OSINT
+            </div>
+            <ul class="menu-items">
+                <li>WHOIS Intelligence <span class="menu-badge badge-slow">5-10s</span></li>
+                <li>DNS Recon Mapper <span class="menu-badge badge-slow">10-20s</span></li>
+                <li>Subdomain Enumerator <span class="menu-badge badge-slow">20-60s</span></li>
+                <li>Technology Stack Detector</li>
+                <li>Email Header Analyzer</li>
+                <li>Certificate Intelligence</li>
+            </ul>
+        </div>
+        
+        <!-- Network Security Card -->
+        <div class="menu-card" onclick="window.location.href='/network'">
+            <div class="menu-header">
+                <div class="menu-icon"><i class="fas fa-network-wired"></i></div>
+                <div class="menu-title">NETWORK SECURITY</div>
+            </div>
+            <div class="menu-desc">
+                Perimeter Scanning & Analysis
+            </div>
+            <ul class="menu-items">
+                <li>Smart Port Scanner</li>
+                <li>Live Host Discovery</li>
+                <li>SSL/TLS Inspector</li>
+                <li>WAF Detector</li>
+                <li>IP Reputation Checker</li>
+            </ul>
+        </div>
+        
+        <!-- Web Security Card -->
+        <div class="menu-card" onclick="window.location.href='/websec'">
+            <div class="menu-header">
+                <div class="menu-icon"><i class="fas fa-globe"></i></div>
+                <div class="menu-title">WEB SECURITY</div>
+            </div>
+            <div class="menu-desc">
+                Application Layer Assessment
+            </div>
+            <ul class="menu-items">
+                <li>HTTP Security Headers</li>
+                <li>Directory Fuzzer</li>
+                <li>CORS Checker</li>
+                <li>XSS Reflection Test</li>
+                <li>File Upload Risk Analyzer</li>
+            </ul>
+        </div>
+        
+        <!-- Threat Intelligence Card -->
+        <div class="menu-card" onclick="window.location.href='/threat'">
+            <div class="menu-header">
+                <div class="menu-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="menu-title">THREAT INTELLIGENCE</div>
+            </div>
+            <div class="menu-desc">
+                IOC Analysis & Threat Hunting
+            </div>
+            <ul class="menu-items">
+                <li>Phishing URL Analyzer</li>
+                <li>Hash Analyzer</li>
+                <li>IOC Scanner</li>
+                <li>Brand Impersonation</li>
+                <li>Pastebin Leak Monitor</li>
+            </ul>
+        </div>
+        
+        <!-- Utilities Card -->
+        <div class="menu-card" onclick="window.location.href='/utilities'">
+            <div class="menu-header">
+                <div class="menu-icon"><i class="fas fa-tools"></i></div>
+                <div class="menu-title">UTILITIES</div>
+            </div>
+            <div class="menu-desc">
+                Security Tools & Helpers
+            </div>
+            <ul class="menu-items">
+                <li>URL to QR Code</li>
+                <li>IP Information</li>
+                <li>Base64 Encoder/Decoder</li>
+                <li>Email Validator</li>
+                <li>Password Strength</li>
+                <li>User-Agent Generator</li>
+            </ul>
+        </div>
+        
+        <!-- SOC Tools Card -->
+        <div class="menu-card" style="opacity: 0.7;">
+            <div class="menu-header">
+                <div class="menu-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="menu-title">SOC TOOLS</div>
+            </div>
+            <div class="menu-desc">
+                Security Operations Center
+            </div>
+            <ul class="menu-items">
+                <li>Log Monitor <span class="menu-badge badge-soon">Q2 2026</span></li>
+                <li>SIEM Integration <span class="menu-badge badge-soon">Q2 2026</span></li>
+                <li>Alert Correlation <span class="menu-badge badge-soon">Q2 2026</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Add this card to the menu-container div -->
+<div class="menu-card" onclick="window.location.href='/wifi'">
+    <div class="menu-header">
+        <div class="menu-icon"><i class="fas fa-bolt"></i></div>
+        <div class="menu-title">WIFI ATTACKS</div>
+    </div>
+    <div class="menu-desc">
+        ESP8266 Attack Controller
+        <span class="menu-badge badge-slow">NEW!</span>
+    </div>
+    <ul class="menu-items">
+        <li>ESP8266 Deauther</li>
+        <li>Beacon Flood</li>
+        <li>Evil Portal</li>
+        <li>Handshake Capture</li>
+        <li>PMKID Capture</li>
+    </ul>
+</div>
+    
+    <!-- System Prompt -->
+    <div style="margin-top: 40px; padding: 20px; background-color: rgba(0, 255, 249, 0.05); border-left: 3px solid var(--accent-cyan);">
+        <div style="display: flex; align-items: center;">
+            <span class="text-cyan" style="font-size: 16px; margin-right: 15px;">┌─[ MINDLESS::REDOPS → SELECT ]</span>
+        </div>
+        <div style="display: flex; align-items: center; margin-top: 10px;">
+            <span class="text-red" style="font-size: 16px; margin-right: 10px;">└─[#]</span>
+            <span class="text-muted">Click any card above to access tools</span>
+            <span class="cursor" style="margin-left: 10px;"></span>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px;">
+    <div style="background-color: var(--bg-secondary); padding: 15px; border: 1px solid var(--border-color); border-radius: 4px;">
+        <span class="text-cyan">TOTAL MODULES</span>
+        <div style="font-size: 32px; font-weight: bold; color: var(--accent-green); margin-top: 5px;">32</div>
+        <span class="text-muted">Active & Ready</span>
+    </div>
+    <div style="background-color: var(--bg-secondary); padding: 15px; border: 1px solid var(--border-color); border-radius: 4px;">
+        <span class="text-cyan">FAST SCANS</span>
+        <div style="font-size: 32px; font-weight: bold; color: var(--accent-cyan); margin-top: 5px;">26</div>
+        <span class="text-muted">&lt; 5 seconds</span>
+    </div>
+    <div style="background-color: var(--bg-secondary); padding: 15px; border: 1px solid var(--border-color); border-radius: 4px;">
+        <span class="text-cyan">DEEP SCANS</span>
+        <div style="font-size: 32px; font-weight: bold; color: var(--accent-yellow); margin-top: 5px;">6</div>
+        <span class="text-muted">5-60 seconds</span>
+    </div>
+</div>
+{% endblock %}
+
+<!-- ❌ REMOVED THE SCRIPTS BLOCK COMPLETELY -->

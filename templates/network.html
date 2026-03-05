@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Navigation -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+        <span class="text-cyan" style="font-size: 18px;">[ NETWORK SECURITY OPERATIONS ]</span>
+        <span class="text-muted" style="margin-left: 15px;">Perimeter Scanning & Analysis</span>
+    </div>
+    <div>
+        <a href="/" class="btn" style="padding: 8px 16px;">
+            <i class="fas fa-arrow-left"></i> BACK TO MAIN
+        </a>
+    </div>
+</div>
+
+<!-- Module Grid -->
+<div class="menu-container">
+    <!-- Smart Port Scanner -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-plug"></i></div>
+            <div class="menu-title">SMART PORT SCANNER</div>
+        </div>
+        <div class="menu-desc">
+            TCP Connect scan with service detection & banner grabbing
+        </div>
+        
+        <form class="tool-form" data-category="network" data-tool="port_scan" id="port_scan_form">
+            <div class="form-group">
+                <label class="form-label" for="port_scan_target">TARGET IP/HOST</label>
+                <input type="text" class="form-control" id="port_scan_target" name="target" 
+                       placeholder="e.g., 192.168.1.1 or scanme.org" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" data-tool="port_scan">
+                <i class="fas fa-play"></i> EXECUTE SCAN
+            </button>
+        </form>
+    </div>
+    
+    <!-- Live Host Discovery -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-server"></i></div>
+            <div class="menu-title">LIVE HOST DISCOVERY</div>
+        </div>
+        <div class="menu-desc">
+            ICMP ping sweep & ARP scan with TCP fallback
+        </div>
+        
+        <form class="tool-form" data-category="network" data-tool="host_discovery" id="host_discovery_form">
+            <div class="form-group">
+                <label class="form-label" for="host_discovery_subnet">SUBNET</label>
+                <input type="text" class="form-control" id="host_discovery_subnet" name="subnet" 
+                       placeholder="e.g., 192.168.1.0/24" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> EXECUTE SCAN
+            </button>
+        </form>
+    </div>
+    
+    <!-- SSL/TLS Inspector -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-lock"></i></div>
+            <div class="menu-title">SSL/TLS INSPECTOR</div>
+        </div>
+        <div class="menu-desc">
+            Certificate analysis & protocol security testing
+        </div>
+        
+        <form class="tool-form" data-category="network" data-tool="ssl_tls" id="ssl_tls_form">
+            <div class="form-group">
+                <label class="form-label" for="ssl_tls_host">TARGET HOST</label>
+                <input type="text" class="form-control" id="ssl_tls_host" name="host" 
+                       placeholder="e.g., example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> EXECUTE SCAN
+            </button>
+        </form>
+    </div>
+    
+    <!-- WAF Detector -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-shield"></i></div>
+            <div class="menu-title">WAF DETECTOR</div>
+        </div>
+        <div class="menu-desc">
+            Firewall fingerprinting & WAF identification
+        </div>
+        
+        <form class="tool-form" data-category="network" data-tool="waf_detect" id="waf_detect_form">
+            <div class="form-group">
+                <label class="form-label" for="waf_detect_url">TARGET URL</label>
+                <input type="text" class="form-control" id="waf_detect_url" name="url" 
+                       placeholder="e.g., https://example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> EXECUTE SCAN
+            </button>
+        </form>
+    </div>
+    
+    <!-- IP Reputation Checker -->
+    <div class="menu-card">
+        <div class="menu-header">
+            <div class="menu-icon"><i class="fas fa-balance-scale"></i></div>
+            <div class="menu-title">IP REPUTATION</div>
+        </div>
+        <div class="menu-desc">
+            Threat intelligence & geolocation analysis
+        </div>
+        
+        <form class="tool-form" data-category="network" data-tool="ip_reputation" id="ip_reputation_form">
+            <div class="form-group">
+                <label class="form-label" for="ip_reputation_ip">IP ADDRESS</label>
+                <input type="text" class="form-control" id="ip_reputation_ip" name="ip" 
+                       placeholder="e.g., 8.8.8.8" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> EXECUTE SCAN
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Results Container -->
+<div id="loading" class="hidden" style="margin-top: 30px;"></div>
+
+<div id="results" style="margin-top: 30px;"></div>
+
+<!-- Job Status -->
+<div style="display: flex; gap: 20px; margin-top: 20px; padding: 15px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 4px;">
+    <div>
+        <span class="text-muted">JOB STATUS:</span>
+        <span id="job-status" class="text-yellow">⏳ READY</span>
+    </div>
+    <div>
+        <span class="text-muted">ELAPSED:</span>
+        <span id="job-time" class="text-cyan">0.0s</span>
+    </div>
+    <div style="flex: 1;">
+        <div class="progress">
+            <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
